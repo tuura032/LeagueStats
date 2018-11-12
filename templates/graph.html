@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Fantasy Football Fantasy
+{% endblock %}
+
+{% block main %}
+    <h2>All Points Scored Each Week</h2>
+<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+<div>
+    <span>
+        Analysis: Overall scoring is pretty consistant from week to week, with a variance of only about 4%. This translates to about a 10 point swing per person per week.
+        <ul>
+            <li>More data to come. This is very much a page that is in progress.</li>
+        </ul>
+    </span>
+</div>
+{% endblock %}

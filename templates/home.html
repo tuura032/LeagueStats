@@ -5,18 +5,35 @@
 {% endblock %}
 
 {% block main %}
-  
-            <h2>Current Rankings</h2> 
+
+    <div class=" justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">What's New</h1>
+      <span>Lots of new updates this week! Check out:
+        <ul>
+          <li>New "Playoffs and Prizes" page</li>
+          <li>Ability to sort by some of the categories on the main table</li>
+          <li>You can still click to view a summary of each week, including Week 10 through today.</li>
+          <ul><li>Note: Week 10 wins not updated as of yet.</li></ul>
+          <li>Added Total Scoring to each week. </li>
+          <li>Finally, in the stats link, you can view a graph of the total points scored each week to see how overal scoring trended.</li>
+        </ul>
+      </span>
+    </div>
+
+
+            <h3>Current Rankings Through Week {{ current_week }}</h3> 
             <div class="table-responsive">
               <table class="table table-striped table-sm">
                 <thead>
                   <tr>
-                    <th>Rank</th>
+                    <th><a href="/">Rank</a></th>
                     <th>Owner</th>
-                    <th>Total Wins</th>
-                    <th>Total Points</th>
-                    <th>H2H Wins</th>
-                    <th>Top Six Finishes</th>
+                    <th><a href="/total_wins">Total Wins</a></th>
+                    <th><a href="/total_points">Total Points</a></th>
+                    <th><a href="/average_score">Average Score</a></th>
+                    <th>Avg Last 3</th>
+                    <th><a href="/h2h">H2H Wins</a></th>
+                    <th><a href="/top6">Top Six Finishes</a></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -26,6 +43,8 @@
                       <td>{{ info.owner }}</td>
                       <td>{{ info.total_wins }}</td>
                       <td>{{ info.total_points }}</td>
+                      <td>{{ (info.total_points / current_week) | round(1, 'ceil')}}</td>
+                      <td>{{ (((info[current_week +3] | int) + (info[current_week +4] | int)+ (info[current_week +5] | int))/ 3) | round | int }}</td>
                       <td>{{ info.wins }}</td>
                       <td>{{ info.top6 }}</td>
                     </tr>
@@ -35,7 +54,7 @@
             </div>
               
             {% if some_week %}
-            <h2>Week {{ week }} Scores</h2> 
+            <h3>Week {{ week }} Scores</h3> 
             <div class="table-responsive">
               <table class="table table-striped table-sm" style="width:50%">
                 <thead>
@@ -53,55 +72,35 @@
                       <td>{{ info[0] }}</td>
                     </tr>
                   {% endfor %}
+                  <tr class="border top">
+                    <td>Total Week Scoring</td>
+                    <td></td>
+                    <td><strong>{{ score_counter }}</strong></td>
+                  </tr>
               </table>
             </div>
             {% endif %}
-            <h2>Projected Prize Distribution</h2>
-            <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                  <thead>
-                    <tr>
-                      <th>1st Place ($25) -BYE-</th>
-                      <th>2nd Place ($20) -BYE-</th>
-                      <th>Third Place ($15)</th>
-                      <th>Reg Season Most PF ($30)</th>
-                      <th>5th Seed - Wild Card</th>
-                      <th>6th Seed - Wild Card</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      <tr> 
-                        <td>{{ sortedbywin[0].owner }}</td>
-                        <td>{{ sortedbywin[1].owner }}</td>
-                        <td>{{ sortedbywin[2].owner }}</td>
-                        <td>{{ mostpf.owner }}</td>
-                        <td>{{ sortedbywin[4].owner }}</td>
-                        <td>{{ sortedbywin[5].owner }}</td>
-                      </tr>
-                  </tbody>
-                </table>
-              </div>
 
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">VIEW WEEK</a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="/1">1</a></li>
-                  <li class="page-item"><a class="page-link" href="/2">2</a></li>
-                  <li class="page-item"><a class="page-link" href="/3">3</a></li>
-                  <li class="page-item"><a class="page-link" href="/4">4</a></li>
-                  <li class="page-item"><a class="page-link" href="/5">5</a></li>
-                  <li class="page-item"><a class="page-link" href="/6">6</a></li>
-                  <li class="page-item"><a class="page-link" href="/7">7</a></li>
-                  <li class="page-item"><a class="page-link" href="/8">8</a></li>
-                  <li class="page-item"><a class="page-link" href="/9">9</a></li>
-                  <li class="page-item"><a class="page-link" href="/10">10</a></li>
-                  <li class="page-item"><a class="page-link" href="#">11</a></li>
-                  <li class="page-item"><a class="page-link" href="#">12</a></li>
-                  <li class="page-item"><a class="page-link" href="#">13</a></li>
-                </ul>
-              </nav>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">VIEW WEEK</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="/1">1</a></li>
+                <li class="page-item"><a class="page-link" href="/2">2</a></li>
+                <li class="page-item"><a class="page-link" href="/3">3</a></li>
+                <li class="page-item"><a class="page-link" href="/4">4</a></li>
+                <li class="page-item"><a class="page-link" href="/5">5</a></li>
+                <li class="page-item"><a class="page-link" href="/6">6</a></li>
+                <li class="page-item"><a class="page-link" href="/7">7</a></li>
+                <li class="page-item"><a class="page-link" href="/8">8</a></li>
+                <li class="page-item"><a class="page-link" href="/9">9</a></li>
+                <li class="page-item"><a class="page-link" href="/10">10</a></li>
+                <li class="page-item"><a class="page-link" href="#">11</a></li>
+                <li class="page-item"><a class="page-link" href="#">12</a></li>
+                <li class="page-item"><a class="page-link" href="#">13</a></li>
+              </ul>
+            </nav>
             
           {% endblock %}
        

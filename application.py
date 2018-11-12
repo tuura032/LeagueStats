@@ -22,7 +22,14 @@ Session(app)
 # Set up database
 engine = create_engine('postgres://uppjytxixujjcg:ee4d0f848611a35592d0ace9b4af1e031ac7bae389394901079ff2086392beff@ec2-54-243-46-32.compute-1.amazonaws.com:5432/d2rkoq3jie1n31')
 db = scoped_session(sessionmaker(bind=engine))
-
+    
+# Get Current Week
+week = db.execute("SELECT * FROM fffscores WHERE id = 1").fetchall()
+current_week = -3
+for column in week[0]:
+    current_week += 1
+    if column == 0:
+        break
 
 @app.route("/")
 def home():
@@ -36,12 +43,32 @@ def home():
     first = sortedbywin[0]
     second = sortedbywin[1]
     third = sortedbywin[2]
+
     
     
-    return render_template("home.html", sortedbywin=sortedbywin, first=first, second=second, third=third, mostpf = mostpf)
+    return render_template("home.html", sortedbywin=sortedbywin, first=first, second=second, third=third, mostpf = mostpf, current_week = current_week)
+
+@app.route("/playoffs")
+def playoffs():
+    # Query the database for data
+    sortedbywin = db.execute("SELECT * FROM ffftable ORDER BY total_wins DESC, total_points DESC").fetchall()
+    
+    # Get Player with most points
+    mostpf = db.execute("SELECT owner, total_points FROM ffftable ORDER BY total_points DESC").fetchone()
+    
+    # Get current places
+    first = sortedbywin[0]
+    second = sortedbywin[1]
+    third = sortedbywin[2]
+    
+    return render_template("playoffs.html", sortedbywin=sortedbywin, first=first, second=second, third=third, mostpf = mostpf, current_week = current_week)
 
 @app.route("/<int:view_week>")
 def homeextra(view_week):
+
+    if view_week < 0 or view_week > 17:
+        return render_template("error.html", error="invalid url")
+
     # Query the database for data
     sortedbywin = db.execute("SELECT * FROM ffftable ORDER BY total_wins DESC, total_points DESC").fetchall()
     
@@ -64,12 +91,50 @@ def homeextra(view_week):
         # send week number and sorted (score : owner) to data table
         week_scores.sort(key=lambda tup: tup[0], reverse=True) 
         week = view_week
+
+        # Get total score of week.
+        score_counter = 0
+        for scores in some_week:
+            score_counter += scores[index]
+        
     
     else:
         some_week is None
+
     
+    return render_template("home.html", sortedbywin=sortedbywin, mostpf = mostpf, some_week=some_week, week_scores=week_scores, week=week, current_week = current_week, score_counter=score_counter)
+
+@app.route("/<string:sort_by>")
+def sorted(sort_by):
     
-    return render_template("home.html", sortedbywin=sortedbywin, mostpf = mostpf, some_week=some_week, week_scores=week_scores, week=week)
+    # Query the database for data, depending on url
+    if sort_by == "total_points" or sort_by == "average_score":
+        sortedby = db.execute("SELECT * FROM ffftable ORDER BY total_points DESC").fetchall()
+    
+    elif sort_by == "h2h":
+        sortedby = db.execute("SELECT * FROM ffftable ORDER BY wins DESC, total_points DESC").fetchall()
+    
+    elif sort_by == "top6":
+        sortedby = db.execute("SELECT * FROM ffftable ORDER BY top6 DESC, total_points DESC").fetchall()
+    
+    else:
+        sortedby = db.execute("SELECT * FROM ffftable ORDER BY total_wins DESC, total_points DESC").fetchall()
+
+    # Get Player with most points
+    mostpf = db.execute("SELECT owner, total_points FROM ffftable ORDER BY total_points DESC").fetchone()
+    
+    # Get current places
+    first = sortedby[0]
+    second = sortedby[1]
+    third = sortedby[2]
+
+
+    return render_template("home.html", sortedbywin=sortedby, first=first, second=second, third=third, mostpf = mostpf, current_week = current_week)
+
+@app.route("/data")
+def data():
+    return render_template("graph.html")
+
 
 @app.route("/update", methods=["GET"])
 def update():

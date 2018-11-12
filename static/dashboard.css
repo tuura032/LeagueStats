@@ -8,6 +8,11 @@ body {
   vertical-align: text-bottom;
 }
 
+a {
+  font-weight: 500;
+  color: #333;
+}
+
 /*
  * Sidebar
  */

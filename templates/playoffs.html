@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Fantasy Football Fantasy
+{% endblock %}
+
+{% block main %}
+<h2>Playoffs</h2> 
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th>Seed</th>
+        <th>Owner</th>
+        <th>Total Wins</th>
+        <th>Wins to Clinch / {{ ((13 - current_week)*2) }}</th>
+        <th>Games Back</th>
+        <th>Heating Up! Last 3 Trend*</th>
+        <th>Week {{ current_week - 2 }}</th>
+        <th>Week {{ current_week - 1 }}</th>
+        <th>Week {{ current_week }}</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for info in sortedbywin %}
+        <tr> 
+          <td>{{ loop.index }}</td>
+          <td>{{ info.owner }}</td>
+          <td>{{ info.total_wins }}</td>
+          <td>{{ (((13 - current_week) *2) + sortedbywin[6].total_wins - info.total_wins) | round }}</td>
+          <td>{{ info.total_wins - sortedbywin[0].total_wins }}</td>
+          <td>{{ ((((info[current_week +3] | int) + (info[current_week +4] | int)+ (info[current_week +5] | int))/ 3) - ((info.total_points | int) / (current_week | int))) | round  }}</td>
+          <td>{{ info[current_week +3] | int }}</td>
+          <td>{{ info[current_week +4] | int }}</td>
+          <td>{{ info[current_week +5] | int }}</td>
+        </tr>
+      {% endfor %}
+        </tbody>
+  </table>
+<p><span>*Heating up! represents
+    difference between 
+   your average scoring
+   vs your average
+   the last 3 weeks.</span></p>
+   <br>
+
+  <h2>Projected Prize Distribution</h2>
+  <div class="table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th>1st Place ($25) -BYE-</th>
+            <th>2nd Place ($20) -BYE-</th>
+            <th>Third Place ($15)</th>
+            <th>Reg Season Most PF ($30)</th>
+            <th>1st Overall ($90)</th>
+            <th>2nd Overall ($60)</th>
+            <th>3rd Overall ($30)</th>
+            <th>Playoffs Most PF ($30)</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr> 
+              <td>{{ sortedbywin[0].owner }}</td>
+              <td>{{ sortedbywin[1].owner }}</td>
+              <td>{{ sortedbywin[2].owner }}</td>
+              <td>{{ mostpf.owner }}</td>
+              <td>TBD</td>
+              <td>TBD</td>
+              <td>TBD</td>
+              <td>TBD</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+
+{% endblock %}
