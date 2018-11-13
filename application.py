@@ -1,13 +1,10 @@
-# TODO I'm struggling with the varchar values of scores_wk_. I might need to just create a new data table (which is fine), or not deal with sorting scores. 
-# also STB udpates only through week 9, I should have it go until it reaches a null value. maybe a while loop instead? Or just add an if statement and break.
-
 import os
 
 from flask import Flask, session, render_template, request, url_for, flash, redirect, jsonify, flash
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from getScoreboardData import getscorestobeat, getweekscores, getpointsfor, getallteamwins
+from getScoreboardData import getscorestobeat, getweekscores, getpointsfor, getallteamwins, getroster
 import requests
 from espnff import League
 
@@ -135,6 +132,24 @@ def sorted(sort_by):
 def data():
     return render_template("graph.html")
 
+@app.route("/player/<int:id>")
+def player(id):
+    '''display an owners roster, player draft price, and keeper price'''
+
+    if id < 1 or id > 12:
+        return render_template("error.html", error="That page doesn't exist.")
+
+    getteamname = db.execute("SELECT id, owner FROM ffftable ORDER BY id")
+    for player in getteamname:
+        if id == player.id:
+            owner = player.owner
+            break
+    
+    datalist = getroster(id)
+
+
+
+    return render_template("player1.html", datalist = datalist, owner = owner)
 
 @app.route("/update", methods=["GET"])
 def update():

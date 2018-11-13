@@ -1,6 +1,8 @@
 # https://github.com/rbarton65/espnff
 
 from espnff import League
+import requests
+
 league_id = 877873
 year = 2018
 league = League(league_id, year)
@@ -63,3 +65,33 @@ def getallteamwins():
     team = league.teams
 
     return team
+
+def getroster(id):
+    '''taking in owner id, return current roster'''
+    
+    # get json data
+    r = requests.get('http://games.espn.com/ffl/api/v2/rosterInfo?leagueId=877873&seasonId=2018&teamIds=' + str(id))
+    roster = r.json()
+    eachplayer = roster['leagueRosters']['teams'][0]['slots']
+
+    # Get at data from each player
+    datalist = []
+    for player in range(0, 15):
+        firstname = eachplayer[player]['player']['firstName']
+        lastname = eachplayer[player]['player']['lastName']
+        auctionvalue = eachplayer[player]['player']['value']
+        #playerdata = (1, firstname+" "+ lastname, auctionvalue)
+        
+        # Set Keeper Price
+        keeperprice = auctionvalue + 7
+        if auctionvalue == 0:
+            keeperprice = 12
+        if lastname == "Gurley II" or lastname == "Kamara" or lastname == "Allen" or lastname == "Ertz" or lastname == "Hill" or lastname == "Adams" or lastname == "Thielen" or \
+                    lastname == "Henry" or lastname == "Wilson" or lastname == "Elliot" or lastname == "Miller" or lastname == "Smith-Schuster" or lastname == "Jones Jr":
+            keeperprice += 3
+        if firstname + lastname == "Melvin Gordon" or firstname + lastname == "Michael Thomas":
+            keeperprice = "n/a"
+        text = f'{firstname} {lastname} is on your roster and was drafted for ${auctionvalue} and can be kept for ${keeperprice}'
+        datalist.append(text)
+
+    return datalist

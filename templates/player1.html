@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Fantasy Football Fantasy
+{% endblock %}
+
+{% block main %}
+    <h2>{{ owner }}</h2>
+    <ul>
+    {% for text in datalist %}
+
+        <li style="line-height: 1.8em">{{ text }}</li>
+
+    {% endfor %}
+    </ul>
+
+{% endblock %}
