@@ -87,7 +87,8 @@ def getroster(id):
         if auctionvalue == 0:
             keeperprice = 12
         if lastname == "Gurley II" or lastname == "Kamara" or lastname == "Allen" or lastname == "Ertz" or lastname == "Hill" or lastname == "Adams" or lastname == "Thielen" or \
-                    lastname == "Henry" or lastname == "Wilson" or lastname == "Elliot" or lastname == "Miller" or lastname == "Smith-Schuster" or lastname == "Jones Jr":
+                    lastname == "Henry" or lastname == "Wilson" or lastname == "Elliot" or lastname == "Miller" or lastname == "Smith-Schuster" or lastname == "Jones Jr" or \
+                    lastname == "Goodwin" or firstname + lastname == "Jamaal Williams":
             keeperprice += 3
         if firstname + lastname == "Melvin Gordon" or firstname + lastname == "Michael Thomas":
             keeperprice = "n/a"
