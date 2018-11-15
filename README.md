@@ -23,7 +23,7 @@ The app can be viewed in full on Heroku:
 
 
 
-<strong>Application/strong>
+<strong>Application</strong>
 
 application.py if a Flask application that uses SQLAlchemy to access the database. This file hosts all of the routes that direct the user
 to the appropriate page with the correct data queries.
