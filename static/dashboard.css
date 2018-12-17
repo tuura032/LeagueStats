@@ -82,9 +82,12 @@ a[data-toggle="collapse"] {
  * Content
  */
 
-[role="main"] {
-  padding-top: 48px; /* Space for fixed navbar */
+/*@media only screen and (max-width: 768px) {
+  [role="main"] {
+    padding-top: 60px; /* Space for fixed navbar
+  }
 }
+*/
 
 /*
  * Navbar
@@ -113,4 +116,19 @@ a[data-toggle="collapse"] {
 .form-control-dark:focus {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+@media only screen and (max-width: 768px) {
+  #navbar {
+    visibility: hidden;
+  }
+  #sercretnav {
+    visibility: visible!important;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+  #secretnav {
+    visibility: hidden;
+  }
 }
