@@ -1,6 +1,6 @@
 # LeagueStats
 
-League Stats is a web application built to present users novel and relevant data to users. It is a Flask Application built with
+League Stats is a web application built to present users novel and relevant data. It is a Flask Application built with Python
 and Bootstrap. The database was built with PosgreSQL and is hosted on Heroku. Data was primarily collected from the ESPN API or
 web scraping using the BeautifulSoup library.
 
@@ -25,7 +25,7 @@ The app can be viewed in full on Heroku:
 
 <strong>Application</strong>
 
-application.py if a Flask application that uses SQLAlchemy to access the database. This file hosts all of the routes that direct the user
+application.py is a Flask application that uses SQLAlchemy to access the database. This file hosts all of the routes that direct the user
 to the appropriate page with the correct data queries.
 
 
