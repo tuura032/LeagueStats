@@ -4,11 +4,6 @@ League Stats is a web application built to present users novel and relevant data
 and Bootstrap. The database was built with PosgreSQL and is hosted on Heroku. Data was primarily collected from the ESPN API or
 web scraping using the BeautifulSoup library.
 
-The app can be viewed in full on Heroku: 
-
-***<a href="http://fantasyfootballfantasy.herokuapp.com/">At This URL</a>***
-
-
 
 <strong>Primary Features</strong>
 
