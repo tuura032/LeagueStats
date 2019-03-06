@@ -46,6 +46,21 @@ def home():
     
     return render_template("home.html", sortedbywin=sortedbywin, first=first, second=second, third=third, mostpf = mostpf, current_week = current_week)
 
+@app.route("/welcome", methods = ["GET", "POST"])
+def welcome():
+    # update welcome message to be displayed
+    if request.method == "POST":
+        header = request.form.get("title")
+        message = request.form.get("message")
+
+        db.execute("UPDATE fff_welcome SET title = :title, message = :message WHERE id = 1", {"title": header, "message": message})        
+        db.commit()
+        return redirect("/")
+
+    elif request.method == "GET":
+        return render_template("welcome.html")
+
+
 @app.route("/playoffs")
 def playoffs():
     # Query the database for data

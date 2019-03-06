@@ -82,9 +82,10 @@ def getroster(id):
 
     # Get at data from each player
     datalist = []
-    for owner_index in range(0, 15):
-        fullname = myjson['teams'][owner_index]['roster']['entries'][roster_index]['playerPoolEntry']['player']['fullName']
-        auctionvalue = myjson['teams'][owner_index]['roster']['entries'][n]['playerPoolEntry']['keeperValueFuture'] + 7
+    owner_index = id -1
+    for player_index in range(0, 15):
+        fullname = myjson['teams'][owner_index]['roster']['entries'][player_index]['playerPoolEntry']['player']['fullName']
+        auctionvalue = myjson['teams'][owner_index]['roster']['entries'][player_index]['playerPoolEntry']['keeperValueFuture'] + 7
         #playerdata = (1, firstname+" "+ lastname, auctionvalue)
         
         # Set Keeper Price
