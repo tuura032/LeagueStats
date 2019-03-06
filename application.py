@@ -4,9 +4,8 @@ from flask import Flask, session, render_template, request, url_for, flash, redi
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from getScoreboardData import getscorestobeat, getweekscores, getpointsfor, getallteamwins, getroster
+from getApiData import getScoresToBeat, getWeeklyScores, getpointsfor, getallteamwins, getroster
 import requests
-from espnff import League
 
 app = Flask(__name__)
 
@@ -41,7 +40,9 @@ def home():
     second = sortedbywin[1]
     third = sortedbywin[2]
 
-    
+    # load top 100 players somehwere..
+    #top100 = db.execute("SELECT * FROM fff100 ORDER BY playerrank")
+    #print(top100)
     
     return render_template("home.html", sortedbywin=sortedbywin, first=first, second=second, third=third, mostpf = mostpf, current_week = current_week)
 
@@ -130,7 +131,57 @@ def sorted(sort_by):
 
 @app.route("/data")
 def data():
-    return render_template("graph.html")
+    
+    rosters = db.execute("SELECT * FROM fffrosters ORDER BY id").fetchall()
+    q = db.execute("SELECT * FROM fff100 ORDER BY playerrank").fetchall()
+
+    # convert fff100 players into interesting lists
+    top100list = []
+    top12rblist = []
+    top12wrlist = []
+    for z in range(0, 100):
+        top100list.append(q[z][1])
+        if q[z][2] == "WR":
+            top12wrlist.append(q[z][1])
+        if q[z][2] == "RB":
+            top12rblist.append(q[z][1])
+
+    top12rblist = top12rblist[:12]
+    top12wrlist = top12wrlist[:12]
+
+    # Create Lists and Counters
+    top100counter = 0
+    listofcounters = []
+    top12rbcounter = 0
+    listofrbcounters = []
+    top12wrcounter = 0
+    listofwrcounters = []
+
+    # Iterate through lists and increase counts
+    for row in rosters:
+        for eachcolumn in row:
+            if isinstance(row, int):
+                continue
+            if eachcolumn in top100list:
+                top100counter+=1
+            if eachcolumn in top12wrlist:
+                top12wrcounter +=1
+            if eachcolumn in top12rblist:
+                top12rbcounter +=1
+
+        
+        # Add to lists (in order of player id) the number of players they have
+        listofcounters.append(top100counter)
+        listofrbcounters.append(top12rbcounter)
+        listofwrcounters.append(top12wrcounter)
+        # Reset counters for next player
+        top100counter = 0
+        top12wrcounter = 0
+        top12rbcounter = 0
+    
+    
+    return render_template("graph.html", numberoftop100 = listofcounters, top12wr = listofwrcounters, top12rb = listofrbcounters)
+
 
 @app.route("/player/<int:id>")
 def player(id):
@@ -146,8 +197,6 @@ def player(id):
             break
     
     datalist = getroster(id)
-
-
 
     return render_template("player1.html", datalist = datalist, owner = owner)
 
@@ -216,11 +265,11 @@ def weeklyupdate():
         else:
         
             week = int(request.form.get("week"))
-            listofscores = getweekscores(week)
+            scoreDict = getWeeklyScores(week)
             for n in range(0, 12):
                 id = n+1
-                singlescore = str(listofscores[n])
-                floatscore = float(listofscores[n])
+                singlescore = str(scoreDict[n])
+                floatscore = float(scoreDict[n])
                 
                 # Update scores in both tables, given the week
                 if week == 9:
