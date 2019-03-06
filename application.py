@@ -40,11 +40,15 @@ def home():
     second = sortedbywin[1]
     third = sortedbywin[2]
 
+    # get header and welcome message
+    welcome = db.execute("SELECT * from fff_welcome where id = 1").fetchall()
+
+
     # load top 100 players somehwere..
     #top100 = db.execute("SELECT * FROM fff100 ORDER BY playerrank")
     #print(top100)
     
-    return render_template("home.html", sortedbywin=sortedbywin, first=first, second=second, third=third, mostpf = mostpf, current_week = current_week)
+    return render_template("home.html", sortedbywin=sortedbywin, first=first, second=second, third=third, mostpf = mostpf, current_week = current_week, welcome = welcome)
 
 @app.route("/welcome", methods = ["GET", "POST"])
 def welcome():
