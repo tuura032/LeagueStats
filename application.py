@@ -41,14 +41,14 @@ def home():
     third = sortedbywin[2]
 
     # get header and welcome message
-    welcome = db.execute("SELECT * from fff_welcome where id = 1").fetchall()
+    welcome = db.execute("SELECT * FROM fff_welcome where id = 1").fetchall()
 
 
     # load top 100 players somehwere..
     #top100 = db.execute("SELECT * FROM fff100 ORDER BY playerrank")
     #print(top100)
     
-    return render_template("home.html", sortedbywin=sortedbywin, first=first, second=second, third=third, mostpf = mostpf, current_week = current_week, welcome = welcome)
+    return render_template("home.html", sortedbywin=sortedbywin, first=first, second=second, third=third, mostpf = mostpf, current_week = current_week, welcome = welcome[0])
 
 @app.route("/welcome", methods = ["GET", "POST"])
 def welcome():
@@ -91,6 +91,9 @@ def homeextra(view_week):
     
     # Get Player with most points
     mostpf = db.execute("SELECT owner, total_points FROM ffftable ORDER BY total_points DESC").fetchone()
+
+    # get header and welcome message
+    welcome = db.execute("SELECT * FROM fff_welcome where id = 1").fetchall()
     
     if view_week != 0 and view_week < 17 and view_week > 0:
         some_week = db.execute("SELECT * FROM fffscores").fetchall()
@@ -119,7 +122,7 @@ def homeextra(view_week):
         some_week is None
 
     
-    return render_template("home.html", sortedbywin=sortedbywin, mostpf = mostpf, some_week=some_week, week_scores=week_scores, week=week, current_week = current_week, score_counter=score_counter)
+    return render_template("home.html", sortedbywin=sortedbywin, mostpf = mostpf, some_week=some_week, week_scores=week_scores, week=week, current_week = current_week, score_counter=score_counter, welcome = welcome[0])
 
 @app.route("/<string:sort_by>")
 def sorted(sort_by):

@@ -5,14 +5,9 @@
 {% endblock %}
 
 {% block main %}
-    <div id="update-forms">
+    <div id="update-forms" style="margin-top:80px">
         <form action="/welcome" method="POST">
             <input autocomplete=off type="text" name="title" placeholder="Enter a header." style="width: 200px" required>
-            <button class="btn btn-primary" type="submit">Submit</button>
-        </form>
-    </div>
-    <div id="update-forms">
-        <form action="/welcome" method="POST">
             <input autocomplete=off type="text" name="message" placeholder="Enter your message." style="width: 200px" required>
             <button class="btn btn-primary" type="submit">Submit</button>
         </form>

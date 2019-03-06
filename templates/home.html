@@ -20,11 +20,13 @@
         </ul>
       </span>
       <h1 class="h2"></h1>
-      <span>{{ welcome[1] }}
+      {% if welcome %}
+      <span>{{ welcome.title }}
         <ul>
-          <li>{{ welcome[2] }}</li>
+          <li>{{ welcome.message }}</li>
         </ul>
       </span>
+      {% endif %}
     </div>
 
 
