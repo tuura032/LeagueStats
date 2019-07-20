@@ -87,7 +87,7 @@ def getroster(id):
         currentyear = myjson['seasonId']
         fullname = myjson['teams'][owner_index]['roster']['entries'][player_index]['playerPoolEntry']['player']['fullName']
         auctionvalue = myjson['teams'][owner_index]['roster']['entries'][player_index]['playerPoolEntry']['keeperValueFuture'] #last years keeper price
-        acquisitionType = myjson['teams'][owner_index]['roster']['entries'][player_index]['acquistionType']
+        acquisitionType = myjson['teams'][owner_index]['roster']['entries'][player_index]['acquisitionType']
         
         
         
