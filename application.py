@@ -19,6 +19,10 @@ Session(app)
 engine = create_engine('postgres://uppjytxixujjcg:ee4d0f848611a35592d0ace9b4af1e031ac7bae389394901079ff2086392beff@ec2-54-243-46-32.compute-1.amazonaws.com:5432/d2rkoq3jie1n31')
 db = scoped_session(sessionmaker(bind=engine))
     
+# set current season
+current_season = 2019
+
+
 # Get Current Week
 week = db.execute("SELECT * FROM fffscores WHERE id = 1").fetchall()
 current_week = -3
@@ -218,9 +222,11 @@ def player(id):
             owner = player.owner
             break
     
-    datalist = getroster(id)
+    data = getroster(id)
+    roster = data[1]
+    currentseason = data[0]
 
-    return render_template("player1.html", datalist = datalist, owner = owner)
+    return render_template("player1.html", datalist = roster, owner = owner, currentseason = currentseason)
 
 @app.route("/update", methods=["GET"])
 def update():

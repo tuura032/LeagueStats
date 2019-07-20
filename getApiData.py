@@ -84,25 +84,42 @@ def getroster(id):
     datalist = []
     owner_index = id -1
     for player_index in range(0, 15):
+        currentyear = myjson['seasonId']
         fullname = myjson['teams'][owner_index]['roster']['entries'][player_index]['playerPoolEntry']['player']['fullName']
-        auctionvalue = myjson['teams'][owner_index]['roster']['entries'][player_index]['playerPoolEntry']['keeperValueFuture']
-        #playerdata = (1, firstname+" "+ lastname, auctionvalue)
+        auctionvalue = myjson['teams'][owner_index]['roster']['entries'][player_index]['playerPoolEntry']['keeperValueFuture'] #last years keeper price
+        acquisitionType = myjson['teams'][owner_index]['roster']['entries'][player_index]['acquistionType']
         
-        # Set Keeper Price
-        keeperprice = auctionvalue + 7
-        if auctionvalue == 0:
-            keeperprice = 12
-        if fullname == "Todd Gurley II" or fullname == "Alvin Kamara" or fullname == "Keenan Allen" or fullname == "Zach Ertz" or fullname == "Tyreek Hill" or fullname == "Davante Adams" or fullname == "Adam Thielen" or \
-                    fullname == "Derek Henry" or fullname == "Russell Wilson" or fullname == "Ezekiel Elliot" or fullname == "Lamar Miller" or fullname == "JuJu Smith-Schuster" or fullname == "Marvin Jones Jr" or \
-                    fullname == "Marquis Goodwin" or fullname == "Jamaal Williams":
-            keeperprice += 3
-        if fullname == "Melvin Gordon" or fullname == "Michael Thomas":
-            keeperprice = "n/a"
-        elif keeperprice > 80: # temporary fix to UDFA that were bid on with FAAB
-            keeperprice = 12
-        text = f'{fullname} is on your roster and was drafted for ${auctionvalue} and can be kept for ${keeperprice}'
-        datalist.append(text)
+        
+        
 
-    return datalist
+        # Assign 4th year players as no longer eligible for keeping
+        if fullname == "Melvin Gordon" or fullname == "Michael Thomas":
+            keeperprice = None
+        
+        # Set Keeper Price (+ $7 to all players)
+        if acquisitionType == "Draft" and keeperprice != None:
+            keeperprice = auctionvalue + 7
+
+            # Add 3rd year tax (+ $3)
+            if fullname == "Todd Gurley II" or fullname == "Alvin Kamara" or fullname == "Keenan Allen" or fullname == "Zach Ertz" or fullname == "Tyreek Hill" or fullname == "Davante Adams" or fullname == "Adam Thielen" or \
+                        fullname == "Derek Henry" or fullname == "Russell Wilson" or fullname == "Ezekiel Elliot" or fullname == "Lamar Miller" or fullname == "JuJu Smith-Schuster" or fullname == "Marvin Jones Jr" or \
+                        fullname == "Marquis Goodwin" or fullname == "Jamaal Williams":
+                keeperprice = auctionvalue + 3
+
+
+            text = f'{fullname} is on your roster and was drafted for ${auctionvalue} and can be kept for ${keeperprice}'
+            datalist.append(text)
+
+        elif acquisitionType == "Add" and keeperprice:
+            keeperprice = 12
+            text = f'{fullname} is on your roster and was picked up as a free agent. He can be kept for ${keeperprice}'
+            datalist.append(text)
+        else:
+            keeperprice == None
+            text = f'{fullname} is on your roster but it looks like they are not eligible for keeping'
+            datalist.append(text)
+
+    returnvalue = (currentyear, datalist)
+    return returnvalue
 
 
