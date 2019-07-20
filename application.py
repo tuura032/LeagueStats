@@ -237,7 +237,7 @@ def update():
     pf_list = getpointsfor()
     
     # get scoretobeat (STB) from espnff
-    scoretobeat = getscorestobeat() # else use this: scoretobeat = [105.1, 112.4, 107.2, 108.5, 107.5, 103.8, 109.3, 112.3, 103.5, 0, 0, 0, 0]
+    scoretobeat = getScoresToBeat() # else use this: scoretobeat = [105.1, 112.4, 107.2, 108.5, 107.5, 103.8, 109.3, 112.3, 103.5, 0, 0, 0, 0]
 
     # get weekly scoring data from table
     data = db.execute("SELECT * FROM ffftable ORDER BY id").fetchall()
