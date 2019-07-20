@@ -98,6 +98,8 @@ def getroster(id):
             keeperprice += 3
         if fullname == "Melvin Gordon" or fullname == "Michael Thomas":
             keeperprice = "n/a"
+        elif keeperprice > 80: # temporary fix to UDFA that were bid on with FAAB
+            keeperprice = 12
         text = f'{fullname} is on your roster and was drafted for ${auctionvalue} and can be kept for ${keeperprice}'
         datalist.append(text)
 
