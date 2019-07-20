@@ -115,7 +115,6 @@ def getroster(id):
             text = f'{fullname} is on your roster and was picked up as a free agent. He can be kept for ${keeperprice}'
             datalist.append(text)
         else:
-            keeperprice == None
             text = f'{fullname} is on your roster but it looks like they are not eligible for keeping'
             datalist.append(text)
 
