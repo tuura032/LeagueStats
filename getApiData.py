@@ -88,8 +88,7 @@ def getroster(id):
         fullname = myjson['teams'][owner_index]['roster']['entries'][player_index]['playerPoolEntry']['player']['fullName']
         auctionvalue = myjson['teams'][owner_index]['roster']['entries'][player_index]['playerPoolEntry']['keeperValueFuture'] #last years keeper price
         acquisitionType = myjson['teams'][owner_index]['roster']['entries'][player_index]['acquisitionType']
-        
-        
+        print(f'{fullname} fullname, {auctionvalue} auctionvalue, {acquisitionType}, acquisitonType')
         
 
         # Assign 4th year players as no longer eligible for keeping
