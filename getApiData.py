@@ -96,7 +96,7 @@ def getroster(id):
             keeperprice = None
         
         # Set Keeper Price (+ $7 to all players)
-        if acquisitionType == "Draft" and keeperprice != None:
+        if acquisitionType == "DRAFT" and keeperprice != None:
             keeperprice = auctionvalue + 7
 
             # Add 3rd year tax (+ $3)
