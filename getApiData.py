@@ -93,10 +93,10 @@ def getroster(id):
 
         # Assign 4th year players as no longer eligible for keeping
         if fullname == "Melvin Gordon" or fullname == "Michael Thomas":
-            keeperprice = None
+            acquisitionType = "Not Eligible"
         
         # Set Keeper Price (+ $7 to all players)
-        if acquisitionType == "DRAFT" and keeperprice != None:
+        if acquisitionType == "DRAFT" or acquisitionType =="TRADE":
             keeperprice = auctionvalue + 7
 
             # Add 3rd year tax (+ $3)
@@ -109,7 +109,7 @@ def getroster(id):
             text = f'{fullname} is on your roster and was drafted for ${auctionvalue} and can be kept for ${keeperprice}'
             datalist.append(text)
 
-        elif acquisitionType == "Add" and keeperprice:
+        elif acquisitionType == "ADD":
             keeperprice = 12
             text = f'{fullname} is on your roster and was picked up as a free agent. He can be kept for ${keeperprice}'
             datalist.append(text)
