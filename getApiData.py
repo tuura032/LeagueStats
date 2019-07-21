@@ -103,7 +103,7 @@ def getroster(id):
             if fullname == "Todd Gurley II" or fullname == "Alvin Kamara" or fullname == "Keenan Allen" or fullname == "Zach Ertz" or fullname == "Tyreek Hill" or fullname == "Davante Adams" or fullname == "Adam Thielen" or \
                         fullname == "Derek Henry" or fullname == "Russell Wilson" or fullname == "Ezekiel Elliot" or fullname == "Lamar Miller" or fullname == "JuJu Smith-Schuster" or fullname == "Marvin Jones Jr" or \
                         fullname == "Marquis Goodwin" or fullname == "Jamaal Williams":
-                keeperprice = auctionvalue + 3
+                keeperprice += 3
 
 
             text = f'{fullname} is on your roster and was drafted for ${auctionvalue} and can be kept for ${keeperprice}'
