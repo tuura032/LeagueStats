@@ -9,6 +9,11 @@ def getLeagueYear():
     mRosterJSON = mRoster.json()
     return mRosterJSON['seasonId']
 
+def getCurrentWeek():
+    mRoster = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2019/segments/0/leagues/877873?view=mRoster')
+    mRosterJSON = mRoster.json()
+    return mRosterJSON['status']['currentMatchupPeriod']
+
 def getScoresToBeat():
     '''Get Score to Beat for weeks 1-13'''
     # probably done
