@@ -4,7 +4,7 @@ from flask import Flask, session, render_template, request, url_for, flash, redi
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from getApiData import getScoresToBeat, getWeeklyScores, getpointsfor, getallteamwins, getroster
+from getApiData import getScoresToBeat, getWeeklyScores, getpointsfor, getallteamwins, getroster, getLeagueYear, getCurrentWeek
 import requests
 
 app = Flask(__name__)
@@ -24,12 +24,13 @@ current_season = 2019
 
 
 # Get Current Week
-week = db.execute("SELECT * FROM fffscores WHERE id = 1").fetchall()
-current_week = -3
-for column in week[0]:
-    current_week += 1
-    if column == 0:
-        break
+current_week = getCurrentWeek()
+#week = db.execute("SELECT * FROM fffscores WHERE id = 1").fetchall()
+#current_week = -3
+#for column in week[0]:
+    #current_week += 1
+    #if column == 0:
+        #break
 
 @app.route("/")
 def home():
