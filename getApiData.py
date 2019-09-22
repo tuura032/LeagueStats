@@ -4,13 +4,17 @@ import requests
 league_id = 877873
 year = 2018
 
+def getLeagueYear():
+    mRoster = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2019/segments/0/leagues/877873?view=mRoster')
+    mRosterJSON = mRoster.json()
+    return mRosterJSON['seasonId']
 
 def getScoresToBeat():
     '''Get Score to Beat for weeks 1-13'''
     # probably done
     
     # make request
-    mteam = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2018/segments/0/leagues/877873?view=mMatchupScore')
+    mteam = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2019/segments/0/leagues/877873?view=mMatchupScore')
     myjson = mteam.json()
     
     allscorestobeat = []
@@ -32,7 +36,7 @@ def getWeeklyScores(week):
     '''Get All Scores from a given week in a list'''
     # probably done
 
-    mteam = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2018/segments/0/leagues/877873?view=mMatchupScore')
+    mteam = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2019/segments/0/leagues/877873?view=mMatchupScore')
     myjson = mteam.json()
 
     week_index = (int(week) - 1) * 6
@@ -48,7 +52,7 @@ def getpointsfor():
     #done updating
     '''update points_for'''
     
-    mteam = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2018/segments/0/leagues/877873?view=mTeam')
+    mteam = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2019/segments/0/leagues/877873?view=mTeam')
     myjson = mteam.json()
     pf_list = []
 
@@ -62,7 +66,7 @@ def getpointsfor():
 def getallteamwins():
     '''returns dict of  {player_id : wins} of each player'''
     # make sure to fix application.py to work with dict, not list of teams
-    mteam = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2018/segments/0/leagues/877873?view=mTeam')
+    mteam = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2019/segments/0/leagues/877873?view=mTeam')
     myjson = mteam.json()
     
     teams = {}
@@ -77,7 +81,7 @@ def getroster(id):
     '''taking in owner id, return current roster'''
     
     # get json data
-    r = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2018/segments/0/leagues/877873?view=mRoster')
+    r = requests.get('http://fantasy.espn.com/apis/v3/games/ffl/seasons/2019/segments/0/leagues/877873?view=mRoster')
     myjson = r.json()
 
     # Get at data from each player
